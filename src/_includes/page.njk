@@ -1,0 +1,10 @@
+---
+layout: base.njk
+templateClass: page
+---
+<main class="w-full pt-16 bg-surface min-h-screen"><div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-xs text-label-xs text-on-surface-variant uppercase tracking-wider mb-4"><a class="hover:text-primary transition-colors" href="/">Home</a><span class="material-symbols-outlined text-[12px]">chevron_right</span><span class="text-on-surface font-bold">{{ title }}</span></nav>
+<h1 class="font-display-hero text-[32px] sm:text-display-hero text-on-surface tracking-tight mb-3">{{ title }}</h1>
+{% if updated %}<p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Last updated: {{ updated | dateDisplay }}</p>{% endif %}
+<div id="article-body" class="space-y-6 text-on-surface font-body-default leading-relaxed">{{ content | safe }}</div>
+</div></main>

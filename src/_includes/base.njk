@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Dark mode: apply before CSS renders to prevent flash -->
+<script>
+(function(){
+  var t=localStorage.getItem('pd_theme');
+  var sys=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(t==='dark'||(t===null&&sys)) document.documentElement.classList.add('dark');
+})();
+</script>
+{% set mgidJson = mgid | mgidConfig(adPage) %}{% if mgidJson %}<script>(function(){if(!/[?&]noads=1/.test(location.search))document.documentElement.className+=' ads-on'})();</script>{% endif %}
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>{% if title %}{{ title }} | {{ site.shortName }}{% else %}{{ site.name }} — {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{{ description or site.description }}"/>
+<link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
+<meta property="og:title" content="{{ title or site.name }}"/>
+<meta property="og:description" content="{{ description or site.description }}"/>
+<meta property="og:type" content="{% if templateClass == 'post' %}article{% else %}website{% endif %}"/>
+<meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
+{% if imageId %}{% set ogImage = imageId | imgOg %}{% else %}{% set ogImage = site.url + "/assets/icons/og-default.jpg" %}{% endif %}
+<meta property="og:site_name" content="{{ site.name }}"/>
+<meta property="og:locale" content="{{ site.locale }}"/>
+<meta property="og:image" content="{{ ogImage }}"/>
+<meta property="og:image:alt" content="{{ imageAlt or title or site.name }}"/>
+<meta property="og:image:width" content="1280"/>
+<meta property="og:image:height" content="720"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="{{ title or site.name }}"/>
+<meta name="twitter:description" content="{{ description or site.description }}"/>
+<meta name="twitter:image" content="{{ ogImage }}"/>
+{% if templateClass == 'post' and date %}<meta property="article:published_time" content="{{ date | isoDateTime }}"/>
+<meta property="article:modified_time" content="{{ (updated or date) | isoDateTime }}"/>
+<meta property="article:author" content="{{ site.url }}/author/{{ site.author.slug }}/"/>
+<meta name="author" content="{{ site.author.name }}"/>
+{% if categoryLabel %}<meta property="article:section" content="{{ categoryLabel }}"/>
+{% endif %}{% endif %}{% if site.indexable %}<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>{% else %}<meta name="robots" content="noindex,nofollow"/>{% endif %}
+<link rel="preconnect" href="{{ site.imageHosts[site.imageDefaultHost] }}"/>
+{% if templateClass == 'post' and imageId %}<link rel="preload" as="image" href="{{ imageId | imgSrc(1280) }}" imagesrcset="{{ imageId | imgSet }}" imagesizes="(min-width:1024px) 1024px, 100vw" fetchpriority="high"/>
+{% endif %}{% set ldCtx = {"kind": adPage, "title": title, "description": description, "imageId": imageId, "date": date, "updated": updated, "categoryLabel": categoryLabel, "categorySlug": categorySlug, "url": page.url} %}{% set ldStr = ldCtx | ldJson(site) %}{% if ldStr %}<script type="application/ld+json">{{ ldStr | safe }}</script>
+{% endif %}
+<link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml"/>
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="{{ site.favicon }}"/>
+<link rel="icon" type="image/png" sizes="32x32" href="{{ site.faviconPng }}"/>
+<link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg"/>
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png"/>
+<link rel="manifest" href="/manifest.webmanifest"/>
+<meta name="theme-color" content="#045f1c"/>
+<link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml"/>
+<meta name="referrer" content="no-referrer-when-downgrade"/>
+{% if fonts and fonts.local %}
+<!-- Fonts: self-hosted by scripts/build-fonts.js (no Google Fonts requests) -->
+{% for href in fonts.preload %}<link rel="preload" as="font" type="font/woff2" href="{{ href }}" crossorigin="anonymous"/>
+{% endfor %}<style>{{ fonts.css | safe }}</style>
+{% else %}
+<!-- Fonts: non-blocking load -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"/></noscript>
+{% endif %}
+<!-- Compiled Tailwind, inlined (replaces cdn.tailwindcss.com — never add CDN script back) -->
+{% if inlineCss %}<style>{{ inlineCss | safe }}</style>{% else %}<link rel="stylesheet" href="/assets/code/css/style.css"/>{% endif %}
+</head>
+<body class="bg-surface font-body-default text-on-surface antialiased">
+<a class="skip-link" href="#main-content">Skip to content</a>
+{% include "header.njk" %}
+<div id="main-content" tabindex="-1">{{ content | safe }}</div>
+{% include "footer.njk" %}
+{% if site.social.telegram or site.social.discord %}{% include "widgets.njk" %}{% endif %}
+<!-- Dark mode toggle JS -->
+<script>
+function toggleTheme(){
+  var isDark=document.documentElement.classList.toggle('dark');
+  localStorage.setItem('pd_theme',isDark?'dark':'light');
+  document.querySelectorAll('.theme-icon').forEach(function(el){
+    el.textContent=isDark?'light_mode':'dark_mode';
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var isDark=document.documentElement.classList.contains('dark');
+  document.querySelectorAll('.theme-icon').forEach(function(el){
+    el.textContent=isDark?'light_mode':'dark_mode';
+  });
+});
+</script>
+{% if mgidJson %}
+<script type="application/json" id="mgid-config">{{ mgidJson | safe }}</script>
+<script defer src="/assets/code/js/consent.js"></script>
+<script defer src="/assets/code/js/mgid.js"></script>
+{% endif %}
+</body>
+</html>
