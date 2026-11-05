@@ -1,0 +1,126 @@
+{
+  "name": "PactDraft",
+  "shortName": "PactDraft",
+  "tagline": "Clear, sourced news updates",
+  "domain": "pactdraft.com",
+  "url": "https://pactdraft.com",
+  "language": "en",
+  "locale": "en_US",
+  "timezone": "Asia/Kolkata",
+  "description": "PactDraft publishes clear, sourced news and explainers on India, the United States, the United Kingdom, world affairs, technology, business, defense and science and health.",
+  "indexable": false,
+  "email": "contact@pactdraft.com",
+  "founder": {
+    "name": "Raunak Anand",
+    "title": "Founder and Publisher"
+  },
+  "author": {
+    "name": "PactDraft Team",
+    "slug": "pactdraft-team",
+    "bio": "The PactDraft Team prepares and publishes the articles on PactDraft. Every article follows our Editorial Policy and lists its sources at the end."
+  },
+  "address": {
+    "locality": "Pastpar",
+    "region": "Bihar",
+    "postalCode": "852107",
+    "country": "India",
+    "countryCode": "IN",
+    "oneLine": "Pastpar, Bihar 852107, India"
+  },
+  "grievance": {
+    "officer": "Raunak Anand",
+    "email": "contact@pactdraft.com",
+    "acknowledge": "24 hours",
+    "resolve": "15 days"
+  },
+  "editorial": {
+    "humanReview": false,
+    "aiAssisted": true,
+    "illustrativeImages": true
+  },
+  "imageHosts": {
+    "c1": "https://cdn.pactdraft.com"
+  },
+  "imageDefaultHost": "c1",
+  "github": {
+    "owner": "earthinsider",
+    "siteRepo": "pactdraft-site",
+    "cdnRepo": "pactdraft-cdn"
+  },
+  "logo": "/assets/icons/logo-full.png",
+  "logoSchema": "/assets/icons/logo-header.png",
+  "logoHeader": "/assets/icons/logo-header.png",
+  "logoHeaderDark": "/assets/icons/logo-header-dark.png",
+  "logoWidth": 139,
+  "logoHeight": 32,
+  "favicon": "/assets/icons/favicon.ico",
+  "faviconPng": "/assets/icons/favicon-32.png",
+  "network": [],
+  "social": {
+    "telegram": "",
+    "discord": "",
+    "instagram": "",
+    "youtube": "",
+    "x": ""
+  },
+  "footerLinks": [
+    {
+      "label": "About Us",
+      "url": "/about/"
+    },
+    {
+      "label": "Editorial Policy",
+      "url": "/editorial-policy/"
+    },
+    {
+      "label": "Corrections",
+      "url": "/corrections/"
+    },
+    {
+      "label": "Contact",
+      "url": "/contact/"
+    },
+    {
+      "label": "Advertise",
+      "url": "/advertise/"
+    },
+    {
+      "label": "Privacy Policy",
+      "url": "/privacy-policy/"
+    },
+    {
+      "label": "Cookie Policy",
+      "url": "/cookie-policy/"
+    },
+    {
+      "label": "Terms of Use",
+      "url": "/terms/"
+    },
+    {
+      "label": "Copyright (DMCA)",
+      "url": "/dmca/"
+    },
+    {
+      "label": "Grievance Officer",
+      "url": "/grievance/"
+    },
+    {
+      "label": "Cookie settings",
+      "url": "#cookie-settings"
+    }
+  ],
+  "sitemapPages": [
+    "/all-posts/",
+    "/all-categories/",
+    "/about/",
+    "/contact/",
+    "/editorial-policy/",
+    "/corrections/",
+    "/advertise/",
+    "/privacy-policy/",
+    "/cookie-policy/",
+    "/terms/",
+    "/dmca/",
+    "/grievance/"
+  ]
+}
