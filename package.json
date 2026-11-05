@@ -1,0 +1,17 @@
+{
+  "name": "pactdraft-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PactDraft news site (Eleventy + Tailwind)",
+  "scripts": {
+    "fonts": "node scripts/build-fonts.js",
+    "css": "npx tailwindcss -i ./src/assets/code/css/input.css -o ./src/assets/code/css/style.css --minify",
+    "build": "npm run fonts && npm run css && eleventy && node scripts/check-icons.js",
+    "serve": "npx tailwindcss -i ./src/assets/code/css/input.css -o ./src/assets/code/css/style.css --watch & eleventy --serve",
+    "debug": "DEBUG=Eleventy* eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "tailwindcss": "^3.4.1"
+  }
+}
