@@ -1,0 +1,12 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+---
+User-agent: *
+{% if site.indexable %}Allow: /
+Disallow: /search/
+
+Sitemap: {{ site.url }}/sitemap.xml
+Sitemap: {{ site.url }}/sitemap-news.xml
+{% else %}Disallow: /
+{% endif %}

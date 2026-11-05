@@ -1,0 +1,20 @@
+---
+layout: base.njk
+templateClass: author
+adPage: author
+permalink: "/author/{{ site.author.slug }}/"
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "{{ site.author.name }}"
+  description: "{{ site.author.bio }}"
+---
+<main class="w-full pt-16 bg-surface min-h-screen"><div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-xs text-label-xs text-on-surface-variant uppercase tracking-wider mb-4"><a class="hover:text-primary transition-colors" href="/">Home</a><span class="material-symbols-outlined text-[12px]">chevron_right</span><span class="text-on-surface font-bold">{{ site.author.name }}</span></nav>
+<h1 class="font-display-hero text-[32px] sm:text-display-hero text-on-surface tracking-tight mb-3">{{ site.author.name }}</h1>
+<p class="font-body-default text-on-surface-variant leading-relaxed mb-4">{{ site.author.bio }}</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Read how we work in our <a class="underline hover:text-primary" href="/editorial-policy/">Editorial Policy</a>. Found a mistake? <a class="underline hover:text-primary" href="/corrections/">Tell us</a>.</p>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold mb-4">Latest articles</h2>
+<ul class="space-y-4">
+{% for post in collections.posts | reverse | limit(30) %}<li><a class="font-headline-sm text-headline-sm text-on-surface font-bold hover:text-primary transition-colors" href="{{ post.url }}">{{ post.data.title }}</a><div class="font-body-sm text-body-sm text-on-surface-variant">{{ post.data.categoryLabel }} · {{ post | postDate | dateDisplay }}</div></li>
+{% endfor %}</ul>
+</div></main>

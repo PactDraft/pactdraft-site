@@ -1,0 +1,20 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.name }}
+
+> {{ site.description }}
+
+## Sections
+{% for cat in categories %}- [{{ cat.label }}]({{ site.url }}/category/{{ cat.slug }}/)
+{% endfor %}
+## About
+- [About]({{ site.url }}/about/)
+- [Editorial Policy]({{ site.url }}/editorial-policy/)
+- [Corrections]({{ site.url }}/corrections/)
+- [Contact]({{ site.url }}/contact/)
+
+## Feeds
+- [Sitemap]({{ site.url }}/sitemap.xml)
+- [RSS feed]({{ site.url }}/feed.xml)

@@ -1,1 +1,13 @@
-
+---
+permalink: "/sitemap.xml"
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>{{ site.url }}/</loc></url>
+{% for p in site.sitemapPages %}<url><loc>{{ site.url }}{{ p }}</loc></url>
+{% endfor %}<url><loc>{{ site.url }}/author/{{ site.author.slug }}/</loc></url>
+{% for cat in categories %}<url><loc>{{ site.url }}/category/{{ cat.slug }}/</loc></url>
+{% for sub in cat.subs %}<url><loc>{{ site.url }}/category/{{ cat.slug }}/{{ sub.slug }}/</loc></url>
+{% endfor %}{% endfor %}{% for post in collections.posts | reverse %}<url><loc>{{ site.url }}{{ post.url }}</loc><lastmod>{{ post.data.updated or (post | postDate) | isoDateTime }}</lastmod></url>
+{% endfor %}</urlset>
