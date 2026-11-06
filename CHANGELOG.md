@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.1 - build fix
+- Config file renamed `.eleventy.js` -> `eleventy.config.js` (a phone upload had turned the dot-file into ". eleventy.js", so Eleventy ignored it and looked for `_includes` in the wrong place).
+- Workflow and npm scripts call `eleventy --config=eleventy.config.js`.
+- About page title no longer shows template braces.
+Suggested commit message: `fix: config file without leading dot so the build finds src/_includes`
+
 ## v1.0.0 - PactDraft rebrand (first release of this repo)
 - One brand file: `src/_data/site.json` (name, domain, address, email, founder, author, image hosts, footer links, indexing switch).
 - Article URLs `/article/<slug>/`, no dates. Images from the CDN repo: `cdn.pactdraft.com/img/<slug>/`.

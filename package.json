@@ -6,9 +6,9 @@
   "scripts": {
     "fonts": "node scripts/build-fonts.js",
     "css": "npx tailwindcss -i ./src/assets/code/css/input.css -o ./src/assets/code/css/style.css --minify",
-    "build": "npm run fonts && npm run css && eleventy && node scripts/check-icons.js",
-    "serve": "npx tailwindcss -i ./src/assets/code/css/input.css -o ./src/assets/code/css/style.css --watch & eleventy --serve",
-    "debug": "DEBUG=Eleventy* eleventy"
+    "build": "npm run fonts && npm run css && eleventy --config=eleventy.config.js && node scripts/check-icons.js",
+    "serve": "npx tailwindcss -i ./src/assets/code/css/input.css -o ./src/assets/code/css/style.css --watch & eleventy --config=eleventy.config.js --serve",
+    "debug": "DEBUG=Eleventy* eleventy --config=eleventy.config.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
