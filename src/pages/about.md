@@ -1,6 +1,6 @@
 ---
 layout: page.njk
-title: "About {{ site.name }}"
+title: "About Us"
 permalink: "/about/"
 description: "About PactDraft: who runs it, how articles are made and how to reach us."
 updated: 2026-11-05
