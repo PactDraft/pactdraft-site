@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.0 - three images per article
+- Hero (original) `image/<slug>.webp`, home featured card `image/feature/<slug>.webp`, small cards `image/card/<slug>.webp`. Missing feature/card files fall back to the hero.
+- The browser connects early to the image host(s) of each page (max 2) and the main image of the page is preloaded (article hero; home featured card).
+Suggested commit message: `feat: hero, feature and card images with automatic preconnect and preload`
+
 ## v1.1.0 - one image per article, real domain
 - Images are served exactly as uploaded: `https://cdn.pactdraft.com/image/<slug>.webp` (no 480/800/1280 variants, no og.jpg). Slug is checked in this repo by n8n.
 - Image settings in `site.json`: `imageExt`, `imageWidth`, `imageHeight`.

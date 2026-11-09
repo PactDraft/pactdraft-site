@@ -9,15 +9,30 @@ function splitImageId(id) {
   }
   return { host: (site.imageHosts || {})[site.imageDefaultHost] || "", slug: raw };
 }
-// One image per article, exactly as uploaded: <host>/image/<slug>.<ext>  (no sizes, no variants)
-function imgUrl(id) {
+// Three ready-made files per article, served exactly as uploaded (the CDN does no resizing):
+//   hero (post page, original size)  <host>/image/<slug>.webp
+//   feature (big home card)          <host>/image/feature/<slug>.webp
+//   card (small cards everywhere)    <host>/image/card/<slug>.webp
+function imgUrl(id, kind) {
   if (!id) return "";
   const p = splitImageId(id);
-  return p.host + "/image/" + p.slug + "." + (site.imageExt || "webp");
+  const folder = kind === "feature" ? "feature/" : kind === "card" ? "card/" : "";
+  return p.host + "/image/" + folder + p.slug + "." + (site.imageExt || "webp");
 }
-function imgSrc(id) { return imgUrl(id); }   // kept for the templates; a width argument is ignored
-function imgSet() { return ""; }             // there are no variants any more
-function imgOg(id) { return imgUrl(id); }
+function imgSrc(id) { return imgUrl(id); }   // hero, kept for the templates; a width argument is ignored
+function imgSet() { return ""; }             // there is no srcset any more
+function imgOg(id) { return imgUrl(id); }    // social preview = the hero file
+// Hosts that serve the images of a page (ids or posts), at most n, so the browser can connect early.
+function imgHosts(list, n) {
+  var out = [];
+  (list || []).forEach(function (it) {
+    var id = typeof it === "string" ? it : (it && it.data && it.data.imageId);
+    if (!id) return;
+    var h = splitImageId(id).host;
+    if (h && out.indexOf(h) < 0) out.push(h);
+  });
+  return out.slice(0, n || 2);
+}
 function leadSlug(id) { return splitImageId(id).slug.split("/").pop(); }
 
 // Removes the first block of an article body when it is only the featured image again.
@@ -104,6 +119,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("imgSrc", function (id, w) { return imgSrc(id, w); });
   eleventyConfig.addFilter("imgSet", function (id) { return imgSet(id); });
   eleventyConfig.addFilter("imgOg", function (id) { return imgOg(id); });
+  eleventyConfig.addFilter("imgHero", function (id) { return imgUrl(id); });
+  eleventyConfig.addFilter("imgFeature", function (id) { return imgUrl(id, "feature"); });
+  eleventyConfig.addFilter("imgCard", function (id) { return imgUrl(id, "card"); });
+  eleventyConfig.addFilter("imgHosts", function (list, n) { return imgHosts(list, n); });
   eleventyConfig.addFilter("dedupeLead", function (html, id) { return dedupeLead(html, id); });
   eleventyConfig.addFilter("ldJson", function (ctx, s) { return ldJson(ctx, s); });
 
