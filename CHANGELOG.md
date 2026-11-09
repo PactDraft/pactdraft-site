@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0 - one image per article, real domain
+- Images are served exactly as uploaded: `https://cdn.pactdraft.com/image/<slug>.webp` (no 480/800/1280 variants, no og.jpg). Slug is checked in this repo by n8n.
+- Image settings in `site.json`: `imageExt`, `imageWidth`, `imageHeight`.
+- `domain`, `url` and image host now point to pactdraft.com / cdn.pactdraft.com. `indexable` is still false and MGID is still off.
+Suggested commit message: `change: single image per article from cdn.pactdraft.com/image/<slug>.webp, real domain config`
+
 ## v1.0.1 - build fix
 - Config file renamed `.eleventy.js` -> `eleventy.config.js` (a phone upload had turned the dot-file into ". eleventy.js", so Eleventy ignored it and looked for `_includes` in the wrong place).
 - Workflow and npm scripts call `eleventy --config=eleventy.config.js`.

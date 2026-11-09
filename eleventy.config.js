@@ -1,8 +1,6 @@
 // PactDraft - Eleventy config (file name has no leading dot on purpose: some upload tools break dot-files). Brand, URLs, address and image hosts all come from src/_data/site.json.
 const site = require("./src/_data/site.json");
 
-const IMG_SIZES = [480, 800, 1280];
-
 function splitImageId(id) {
   const raw = String(id || "").replace(/^\/+/, "");
   const parts = raw.split("/");
@@ -11,17 +9,15 @@ function splitImageId(id) {
   }
   return { host: (site.imageHosts || {})[site.imageDefaultHost] || "", slug: raw };
 }
-function imgBase(id) { const p = splitImageId(id); return p.host + "/img/" + p.slug; }
-function imgSrc(id, w) {
+// One image per article, exactly as uploaded: <host>/image/<slug>.<ext>  (no sizes, no variants)
+function imgUrl(id) {
   if (!id) return "";
-  const s = IMG_SIZES.find(function (x) { return x >= (w || 800); }) || IMG_SIZES[IMG_SIZES.length - 1];
-  return imgBase(id) + "/" + s + ".webp";
+  const p = splitImageId(id);
+  return p.host + "/image/" + p.slug + "." + (site.imageExt || "webp");
 }
-function imgSet(id) {
-  if (!id) return "";
-  return IMG_SIZES.map(function (s) { return imgBase(id) + "/" + s + ".webp " + s + "w"; }).join(", ");
-}
-function imgOg(id) { return id ? imgBase(id) + "/og.jpg" : ""; }
+function imgSrc(id) { return imgUrl(id); }   // kept for the templates; a width argument is ignored
+function imgSet() { return ""; }             // there are no variants any more
+function imgOg(id) { return imgUrl(id); }
 function leadSlug(id) { return splitImageId(id).slug.split("/").pop(); }
 
 // Removes the first block of an article body when it is only the featured image again.
