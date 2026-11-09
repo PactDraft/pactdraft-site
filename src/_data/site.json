@@ -122,5 +122,8 @@
     "/terms/",
     "/dmca/",
     "/grievance/"
-  ]
+  ],
+  "imageExt": "webp",
+  "imageWidth": 1280,
+  "imageHeight": 720
 }
