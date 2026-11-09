@@ -36,8 +36,9 @@
 <meta name="author" content="{{ site.author.name }}"/>
 {% if categoryLabel %}<meta property="article:section" content="{{ categoryLabel }}"/>
 {% endif %}{% endif %}{% if site.indexable %}<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>{% else %}<meta name="robots" content="noindex,nofollow"/>{% endif %}
-<link rel="preconnect" href="{{ site.imageHosts[site.imageDefaultHost] }}"/>
-{% if templateClass == 'post' and imageId %}<link rel="preload" as="image" href="{{ imageId | imgSrc(1280) }}" fetchpriority="high"/>
+{% if templateClass == 'post' %}{% set pcList = [imageId] %}{% else %}{% set pcList = collections.posts | reverse | limit(12) %}{% endif %}{% if templateClass != 'page' and templateClass != 'author' %}{% for h in pcList | imgHosts(2) %}<link rel="preconnect" href="{{ h }}"/>
+{% endfor %}{% endif %}
+{% if templateClass == 'post' and imageId %}<link rel="preload" as="image" href="{{ imageId | imgHero }}" fetchpriority="high"/>
 {% endif %}{% set ldCtx = {"kind": adPage, "title": title, "description": description, "imageId": imageId, "date": date, "updated": updated, "categoryLabel": categoryLabel, "categorySlug": categorySlug, "url": page.url} %}{% set ldStr = ldCtx | ldJson(site) %}{% if ldStr %}<script type="application/ld+json">{{ ldStr | safe }}</script>
 {% endif %}
 <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml"/>
