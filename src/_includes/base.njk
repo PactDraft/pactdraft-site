@@ -24,8 +24,8 @@
 <meta property="og:locale" content="{{ site.locale }}"/>
 <meta property="og:image" content="{{ ogImage }}"/>
 <meta property="og:image:alt" content="{{ imageAlt or title or site.name }}"/>
-<meta property="og:image:width" content="1280"/>
-<meta property="og:image:height" content="720"/>
+<meta property="og:image:width" content="{% if imageId %}{{ site.imageWidth }}{% else %}1280{% endif %}"/>
+<meta property="og:image:height" content="{% if imageId %}{{ site.imageHeight }}{% else %}720{% endif %}"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="{{ title or site.name }}"/>
 <meta name="twitter:description" content="{{ description or site.description }}"/>
@@ -37,7 +37,7 @@
 {% if categoryLabel %}<meta property="article:section" content="{{ categoryLabel }}"/>
 {% endif %}{% endif %}{% if site.indexable %}<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"/>{% else %}<meta name="robots" content="noindex,nofollow"/>{% endif %}
 <link rel="preconnect" href="{{ site.imageHosts[site.imageDefaultHost] }}"/>
-{% if templateClass == 'post' and imageId %}<link rel="preload" as="image" href="{{ imageId | imgSrc(1280) }}" imagesrcset="{{ imageId | imgSet }}" imagesizes="(min-width:1024px) 1024px, 100vw" fetchpriority="high"/>
+{% if templateClass == 'post' and imageId %}<link rel="preload" as="image" href="{{ imageId | imgSrc(1280) }}" fetchpriority="high"/>
 {% endif %}{% set ldCtx = {"kind": adPage, "title": title, "description": description, "imageId": imageId, "date": date, "updated": updated, "categoryLabel": categoryLabel, "categorySlug": categorySlug, "url": page.url} %}{% set ldStr = ldCtx | ldJson(site) %}{% if ldStr %}<script type="application/ld+json">{{ ldStr | safe }}</script>
 {% endif %}
 <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml"/>
