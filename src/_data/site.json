@@ -125,5 +125,7 @@
   ],
   "imageExt": "webp",
   "imageWidth": 1280,
-  "imageHeight": 720
+  "imageHeight": 720,
+  "featureWidth": 800,
+  "featureHeight": 450
 }
