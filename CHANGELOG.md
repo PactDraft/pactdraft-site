@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0 - the file extension is whatever you upload
+- `image: c1/<slug>.<ext>` carries the real extension (webp, jpg, png, avif). The hero, social preview and Discover image use that original file; the home featured card and all small cards use their own files from `image/feature/` and `image/card/` (same extension unless `imageFeatureExt` / `imageCardExt` say otherwise).
+- `og:image:type` follows the extension. Shared helper in `lib/image.js`.
+Suggested commit message: `feat: per-article image extension, card and feature files follow it`
+
 ## v1.2.0 - three images per article
 - Hero (original) `image/<slug>.webp`, home featured card `image/feature/<slug>.webp`, small cards `image/card/<slug>.webp`. Missing feature/card files fall back to the hero.
 - The browser connects early to the image host(s) of each page (max 2) and the main image of the page is preloaded (article hero; home featured card).

@@ -1,39 +1,26 @@
 // PactDraft - Eleventy config (file name has no leading dot on purpose: some upload tools break dot-files). Brand, URLs, address and image hosts all come from src/_data/site.json.
 const site = require("./src/_data/site.json");
 
-function splitImageId(id) {
-  const raw = String(id || "").replace(/^\/+/, "");
-  const parts = raw.split("/");
-  if (parts.length > 1 && site.imageHosts && site.imageHosts[parts[0]]) {
-    return { host: site.imageHosts[parts[0]], slug: parts.slice(1).join("/") };
-  }
-  return { host: (site.imageHosts || {})[site.imageDefaultHost] || "", slug: raw };
-}
-// Three ready-made files per article, served exactly as uploaded (the CDN does no resizing):
-//   hero (post page, original size)  <host>/image/<slug>.webp
-//   feature (big home card)          <host>/image/feature/<slug>.webp
-//   card (small cards everywhere)    <host>/image/card/<slug>.webp
-function imgUrl(id, kind) {
-  if (!id) return "";
-  const p = splitImageId(id);
-  const folder = kind === "feature" ? "feature/" : kind === "card" ? "card/" : "";
-  return p.host + "/image/" + folder + p.slug + "." + (site.imageExt || "webp");
-}
-function imgSrc(id) { return imgUrl(id); }   // hero, kept for the templates; a width argument is ignored
-function imgSet() { return ""; }             // there is no srcset any more
-function imgOg(id) { return imgUrl(id); }    // social preview = the hero file
+const lib = require("./lib/image.js");
+// Files are served exactly as uploaded, with the extension you gave them (see lib/image.js):
+//   hero (article page, social preview, Discover)  <host>/image/<slug>.<ext>
+//   feature (big home card)                        <host>/image/feature/<slug>.<ext>
+//   card (every small card)                        <host>/image/card/<slug>.<ext>
+function imgSrc(id) { return lib.url(id); }   // hero; a width argument is ignored
+function imgSet() { return ""; }              // there is no srcset any more
+function imgOg(id) { return lib.url(id); }    // social preview = the hero file
 // Hosts that serve the images of a page (ids or posts), at most n, so the browser can connect early.
 function imgHosts(list, n) {
   var out = [];
   (list || []).forEach(function (it) {
     var id = typeof it === "string" ? it : (it && it.data && it.data.imageId);
     if (!id) return;
-    var h = splitImageId(id).host;
+    var h = lib.host(id);
     if (h && out.indexOf(h) < 0) out.push(h);
   });
   return out.slice(0, n || 2);
 }
-function leadSlug(id) { return splitImageId(id).slug.split("/").pop(); }
+function leadSlug(id) { return lib.slugOf(id); }
 
 // Removes the first block of an article body when it is only the featured image again.
 function dedupeLead(html, id) {
@@ -119,9 +106,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("imgSrc", function (id, w) { return imgSrc(id, w); });
   eleventyConfig.addFilter("imgSet", function (id) { return imgSet(id); });
   eleventyConfig.addFilter("imgOg", function (id) { return imgOg(id); });
-  eleventyConfig.addFilter("imgHero", function (id) { return imgUrl(id); });
-  eleventyConfig.addFilter("imgFeature", function (id) { return imgUrl(id, "feature"); });
-  eleventyConfig.addFilter("imgCard", function (id) { return imgUrl(id, "card"); });
+  eleventyConfig.addFilter("imgHero", function (id) { return lib.url(id); });
+  eleventyConfig.addFilter("imgFeature", function (id) { return lib.url(lib.derive(id, "feature")); });
+  eleventyConfig.addFilter("imgCard", function (id) { return lib.url(lib.derive(id, "card")); });
+  eleventyConfig.addFilter("imgFile", function (id) { return lib.url(id); });
+  eleventyConfig.addFilter("imgMime", function (id) { return lib.mime(id); });
   eleventyConfig.addFilter("imgHosts", function (list, n) { return imgHosts(list, n); });
   eleventyConfig.addFilter("dedupeLead", function (html, id) { return dedupeLead(html, id); });
   eleventyConfig.addFilter("ldJson", function (ctx, s) { return ldJson(ctx, s); });
