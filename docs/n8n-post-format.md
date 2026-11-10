@@ -10,11 +10,11 @@ Three `PUT /repos/<owner>/pactdraft-cdn/contents/<path>` calls with `{"message":
 
 | Path | Used for | Size to aim for |
 |---|---|---|
-| `image/<slug>.webp` | hero on the article page, social preview (original size) | 1280x720, 40-100 KB |
-| `image/feature/<slug>.webp` | the big featured card on the home page (a bit less compressed than cards) | 800x450, 25-55 KB |
-| `image/card/<slug>.webp` | every small card (heavily compressed) | 480x270, 8-20 KB |
+| `image/<slug>.<ext>` | hero on the article page, social preview and Discover (original size, original file type) | 1280x720, as you like |
+| `image/feature/<slug>.<ext>` | the big featured card on the home page (a bit less compressed than cards) | 800x450, 25-55 KB |
+| `image/card/<slug>.<ext>` | every small card: latest posts, categories, related posts (heavily compressed) | 480x270, 8-20 KB |
 
-All three are 16:9 WebP. They are live at `https://cdn.pactdraft.com/image/...`. If a feature or card file is missing, the site falls back to the hero file (slower, but never broken), and the CDN workflow prints a warning.
+The extension is whatever you upload (webp, jpg, png, avif). It is written in the front matter `image:` line; the feature and card files are expected to have the same extension unless you add `imageFeatureExt` / `imageCardExt`. All three are 16:9. They are live at `https://cdn.pactdraft.com/image/...`. If a feature or card file is missing, the site falls back to the hero file (slower, but never broken), and the CDN workflow prints a warning.
 
 **3. Commit the article to the site repo** with the host written explicitly (so old posts keep working when a second CDN repo is added):
 
@@ -25,7 +25,9 @@ date: 2026-10-28T14:32:00+05:30        # publish time WITH timezone (IST = +05:3
 updated: 2026-10-28T16:05:00+05:30     # optional: set again whenever the article is changed
 category: united-kingdom               # main category slug from src/_data/categories.json
 subcategory: uk-national               # optional sub category slug
-image: c1/<slug>                       # c1 = cdn.pactdraft.com
+image: c1/<slug>.webp                  # hero file WITH the extension you uploaded; c1 = cdn.pactdraft.com
+# imageFeatureExt: webp                # only if the feature file has a different extension than the hero
+# imageCardExt: webp                   # only if the card file has a different extension than the hero
 excerpt: "One or two sentences. Also used as the meta description."
 imageAlt: "Short description of the picture"
 draft: false                           # true = not published
