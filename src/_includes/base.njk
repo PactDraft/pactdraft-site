@@ -23,7 +23,8 @@
 <meta property="og:site_name" content="{{ site.name }}"/>
 <meta property="og:locale" content="{{ site.locale }}"/>
 <meta property="og:image" content="{{ ogImage }}"/>
-<meta property="og:image:alt" content="{{ imageAlt or title or site.name }}"/>
+{% if imageId %}<meta property="og:image:type" content="{{ imageId | imgMime }}"/>
+{% endif %}<meta property="og:image:alt" content="{{ imageAlt or title or site.name }}"/>
 <meta property="og:image:width" content="{% if imageId %}{{ site.imageWidth }}{% else %}1280{% endif %}"/>
 <meta property="og:image:height" content="{% if imageId %}{{ site.imageHeight }}{% else %}720{% endif %}"/>
 <meta name="twitter:card" content="summary_large_image"/>
