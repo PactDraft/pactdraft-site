@@ -2,8 +2,8 @@
   "name": "PactDraft",
   "shortName": "PactDraft",
   "tagline": "Clear, sourced news updates",
-  "domain": "pactdraft.com",
-  "url": "https://pactdraft.com",
+  "domain": "www.pactdraft.com",
+  "url": "https://www.pactdraft.com",
   "language": "en",
   "locale": "en_US",
   "timezone": "Asia/Kolkata",
@@ -129,9 +129,6 @@
   "featureWidth": 800,
   "featureHeight": 450,
   "images": {
-    "thumbs": false,
-    "featureCount": 5,
-    "cardKB": 16,
-    "featureKB": 45
+    "variants": true
   }
 }

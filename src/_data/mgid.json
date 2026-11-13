@@ -2,8 +2,8 @@
   "enabled": false,
   "loader": "https://jsc.mgid.com/site/1080274.js",
   "hosts": [
-    "pactdraft.com",
-    "www.pactdraft.com"
+    "www.pactdraft.com",
+    "pactdraft.com"
   ],
   "gapMs": 100,
   "minWordsBetween": 220,
