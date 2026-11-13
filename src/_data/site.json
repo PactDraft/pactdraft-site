@@ -127,5 +127,11 @@
   "imageWidth": 1280,
   "imageHeight": 720,
   "featureWidth": 800,
-  "featureHeight": 450
+  "featureHeight": 450,
+  "images": {
+    "thumbs": false,
+    "featureCount": 5,
+    "cardKB": 16,
+    "featureKB": 45
+  }
 }
