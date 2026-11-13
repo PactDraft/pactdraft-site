@@ -29,11 +29,8 @@ module.exports = {
     categoryLabel: function (d) { var r = resolve(d); return r.main ? r.main.label : undefined; },
     subCategorySlug: function (d) { var r = resolve(d); return r.sub ? r.sub.slug : undefined; },
     subCategoryLabel: function (d) { var r = resolve(d); return r.sub ? r.sub.label : undefined; },
-    // Image ids on the CDN. Front matter:  image: c1/<slug>.<ext>  (the extension of the file you uploaded)
-    // optional: imageFeatureExt / imageCardExt when the feature or card file has a different extension than the hero.
+    // Image id on the CDN. Front matter:  image: c1/<slug>.<ext>  (the extension of the file you uploaded)
     imageId: function (d) { return heroId(d); },
-    imageFeatureId: function (d) { var h = heroId(d); return h ? lib.derive(h, "feature", d.imageFeatureExt) : null; },
-    imageCardId: function (d) { var h = heroId(d); return h ? lib.derive(h, "card", d.imageCardExt) : null; },
     excerpt: function (d) { return d.excerpt || d.description; },
     description: function (d) { return d.description || d.excerpt; }
   }
