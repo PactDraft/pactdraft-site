@@ -24,6 +24,19 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install --prefer-offline
+      - name: Restore thumbnail cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            src/assets/thumbs
+            src/_data/thumbs.json
+          key: thumbs-${{ github.run_id }}
+          restore-keys: thumbs-
+      - name: Make small pictures (only when site.json images.thumbs is true)
+        continue-on-error: true
+        run: |
+          python3 -m pip install --quiet pillow pyyaml
+          python3 scripts/make_thumbs.py
       - name: Self-host fonts (falls back to Google Fonts if the fetch fails)
         run: node scripts/build-fonts.js
       - name: Build Tailwind CSS
