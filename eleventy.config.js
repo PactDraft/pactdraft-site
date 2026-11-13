@@ -2,6 +2,15 @@
 const site = require("./src/_data/site.json");
 
 const lib = require("./lib/image.js");
+// Small pictures made by scripts/make_thumbs.py at build time (only used when site.json -> images.thumbs is true).
+let thumbIndex = {};
+try { thumbIndex = require("./src/_data/thumbs.json").items || {}; } catch (e) { thumbIndex = {}; }
+const thumbsOn = !!(site.images && site.images.thumbs);
+function thumbUrl(kind, id) {
+  if (!id) return "";
+  var slug = lib.slugOf(id), t = thumbIndex[slug];
+  return thumbsOn && t && t[kind] ? "/assets/thumbs/" + kind + "/" + slug + ".webp" : lib.url(id);
+}
 // Files are served exactly as uploaded, with the extension you gave them (see lib/image.js):
 //   hero (article page, social preview, Discover)  <host>/image/<slug>.<ext>
 //   feature (big home card)                        <host>/image/feature/<slug>.<ext>
@@ -107,8 +116,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("imgSet", function (id) { return imgSet(id); });
   eleventyConfig.addFilter("imgOg", function (id) { return imgOg(id); });
   eleventyConfig.addFilter("imgHero", function (id) { return lib.url(id); });
-  eleventyConfig.addFilter("imgFeature", function (id) { return lib.url(lib.derive(id, "feature")); });
-  eleventyConfig.addFilter("imgCard", function (id) { return lib.url(lib.derive(id, "card")); });
+  eleventyConfig.addFilter("imgFeature", function (id) { return thumbUrl("feature", id); });
+  eleventyConfig.addFilter("imgCard", function (id) { return thumbUrl("card", id); });
   eleventyConfig.addFilter("imgFile", function (id) { return lib.url(id); });
   eleventyConfig.addFilter("imgMime", function (id) { return lib.mime(id); });
   eleventyConfig.addFilter("imgHosts", function (list, n) { return imgHosts(list, n); });

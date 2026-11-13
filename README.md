@@ -12,6 +12,9 @@ Change it there and every page, feed, sitemap and schema follows. Logos are in `
 ## Articles
 See `docs/n8n-post-format.md`. File name = URL slug = image folder name.
 
+## Images
+n8n uploads ONE image per article to the CDN repo (`pactdraft-cdn`). `src/_data/site.json` -> `"images": {"thumbs": false}` uses that file everywhere. Set `"thumbs": true` and the build makes small cards and the featured picture itself (`scripts/make_thumbs.py`, cached, never breaks the build). Add `src/assets/thumbs/` and `src/_data/thumbs.json` to `.gitignore`.
+
 ## Ads
 `src/_data/mgid.json` -> `"enabled": false` until MGID confirms the new domain. Debug: add `?adaudit=1` (on-screen report) or `?noads=1` to a URL.
 

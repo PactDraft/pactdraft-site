@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.0 - one image per article, optional build-time thumbnails
+- n8n uploads one image per article. Switch `images.thumbs` in `site.json`: false = that one file everywhere; true = the build also makes small cards (480x270) and the featured picture (800x450) on the main site (`scripts/make_thumbs.py`, cached by the workflow, failures are never fatal).
+- Removed the separate feature/card upload idea and the per-variant extension fields.
+Suggested commit message: `feat: single image per article with optional build-time thumbnails`
+
 ## v1.3.0 - the file extension is whatever you upload
 - `image: c1/<slug>.<ext>` carries the real extension (webp, jpg, png, avif). The hero, social preview and Discover image use that original file; the home featured card and all small cards use their own files from `image/feature/` and `image/card/` (same extension unless `imageFeatureExt` / `imageCardExt` say otherwise).
 - `og:image:type` follows the extension. Shared helper in `lib/image.js`.
