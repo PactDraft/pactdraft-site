@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.5.0 - www address, CDN makes the three images
+- Site address is now https://www.pactdraft.com (`domain`, `url`, MGID hosts).
+- One upload per article. The CDN repo builds `image/feature/` and `image/card/` itself; this site only links to them. `images.variants` switches it off.
+- Removed the site-side thumbnail script and its workflow steps.
+- Grievance Officer wording stays at 24 hours.
+Suggested commit message: `feat: www canonical address, feature/card images from the CDN build`
+
 ## v1.4.0 - one image per article, optional build-time thumbnails
 - n8n uploads one image per article. Switch `images.thumbs` in `site.json`: false = that one file everywhere; true = the build also makes small cards (480x270) and the featured picture (800x450) on the main site (`scripts/make_thumbs.py`, cached by the workflow, failures are never fatal).
 - Removed the separate feature/card upload idea and the per-variant extension fields.

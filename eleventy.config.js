@@ -2,14 +2,13 @@
 const site = require("./src/_data/site.json");
 
 const lib = require("./lib/image.js");
-// Small pictures made by scripts/make_thumbs.py at build time (only used when site.json -> images.thumbs is true).
-let thumbIndex = {};
-try { thumbIndex = require("./src/_data/thumbs.json").items || {}; } catch (e) { thumbIndex = {}; }
-const thumbsOn = !!(site.images && site.images.thumbs);
-function thumbUrl(kind, id) {
+// The CDN repo makes the feature and card versions itself from the one uploaded image:
+//   image/feature/<slug>.<ext> (home featured card), image/card/<slug>.<ext> (every small card).
+// site.json -> images.variants: false = use the original file everywhere.
+const variantsOn = !!(site.images && site.images.variants);
+function variantUrl(kind, id) {
   if (!id) return "";
-  var slug = lib.slugOf(id), t = thumbIndex[slug];
-  return thumbsOn && t && t[kind] ? "/assets/thumbs/" + kind + "/" + slug + ".webp" : lib.url(id);
+  return variantsOn ? lib.url(lib.derive(id, kind)) : lib.url(id);
 }
 // Files are served exactly as uploaded, with the extension you gave them (see lib/image.js):
 //   hero (article page, social preview, Discover)  <host>/image/<slug>.<ext>
@@ -116,8 +115,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("imgSet", function (id) { return imgSet(id); });
   eleventyConfig.addFilter("imgOg", function (id) { return imgOg(id); });
   eleventyConfig.addFilter("imgHero", function (id) { return lib.url(id); });
-  eleventyConfig.addFilter("imgFeature", function (id) { return thumbUrl("feature", id); });
-  eleventyConfig.addFilter("imgCard", function (id) { return thumbUrl("card", id); });
+  eleventyConfig.addFilter("imgFeature", function (id) { return variantUrl("feature", id); });
+  eleventyConfig.addFilter("imgCard", function (id) { return variantUrl("card", id); });
   eleventyConfig.addFilter("imgFile", function (id) { return lib.url(id); });
   eleventyConfig.addFilter("imgMime", function (id) { return lib.mime(id); });
   eleventyConfig.addFilter("imgHosts", function (list, n) { return imgHosts(list, n); });
