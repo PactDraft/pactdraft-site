@@ -27,10 +27,13 @@ draft: false                           # true = not published
 <p>Article body (HTML is fine)...</p>
 ```
 
-How the one image is used
-- Article page hero, social preview and Discover: this file, as is.
-- Home featured card and all small cards: the same file when `"images": {"thumbs": false}` in `src/_data/site.json`.
-  With `"thumbs": true` the site builds small pictures itself from that one file (cards about 10 KB, featured about 35 KB), keeps them on the main site and reuses them on every build. n8n and the CDN do nothing extra either way.
+How the one image is used (nothing extra to upload)
+The CDN repo builds the other two versions by itself, about a minute after the upload, from the same file name:
+- `https://cdn.pactdraft.com/image/<slug>.<ext>` = the original: article hero, social preview, Discover.
+- `https://cdn.pactdraft.com/image/feature/<slug>.<ext>` = a bit compressed: the big first card on the home page.
+- `https://cdn.pactdraft.com/image/card/<slug>.<ext>` = compressed more: every small card (latest posts, category and other multi-post sections, related posts).
+Until those two exist the site shows the original, so nothing breaks. jpg and webp originals are best; png gets resized but not much smaller; avif/gif get no feature/card (the site uses the original).
+`src/_data/site.json` -> `"images": {"variants": false}` makes the site use the original everywhere.
 
 Rules
 - Slug: lowercase letters, digits, hyphens. Unique forever.
