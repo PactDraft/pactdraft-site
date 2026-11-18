@@ -8,7 +8,7 @@
   "locale": "en_US",
   "timezone": "Asia/Kolkata",
   "description": "PactDraft publishes clear, sourced news and explainers on India, the United States, the United Kingdom, world affairs, technology, business, defense and science and health.",
-  "indexable": false,
+  "indexable": true,
   "email": "contact@pactdraft.com",
   "founder": {
     "name": "Raunak Anand",
@@ -130,5 +130,6 @@
   "featureHeight": 450,
   "images": {
     "variants": true
-  }
+  },
+  "announceSitemap": false
 }
