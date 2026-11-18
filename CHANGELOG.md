@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.1 - fix "Dependency Cycle Found" in the build
+- `src/_posts/_posts.11tydata.js`: formulas now read only raw front matter. Before, categorySlug <-> subCategorySlug, excerpt <-> description, and imageId / permalink reading their own names could stop the build as soon as the first article existed.
+- `excerpt` and `description` are plain front matter; base.njk uses `description or excerpt or site.description`.
+- n8n example: the subcategory now belongs to the category.
+Suggested commit message: `fix: no computed key reads another computed key (dependency cycles)`
+
 ## v1.5.0 - www address, CDN makes the three images
 - Site address is now https://www.pactdraft.com (`domain`, `url`, MGID hosts).
 - One upload per article. The CDN repo builds `image/feature/` and `image/card/` itself; this site only links to them. `images.variants` switches it off.
