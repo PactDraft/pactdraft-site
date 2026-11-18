@@ -9,8 +9,9 @@ function findSub(slug) {
   return null;
 }
 function resolve(d) {
-  var sub = findSub(d.subCategorySlug || d.subcategory || "");
-  var main = findMain(d.categorySlug || d.category || "") || (sub && sub.main) || null;
+  // Read ONLY raw front matter keys here. Reading the computed keys (categorySlug / subCategorySlug) inside their own formulas causes an Eleventy "Dependency Cycle".
+  var sub = findSub(d.subcategory || "");
+  var main = findMain(d.category || "") || (sub && sub.main) || null;
   return { main: main, sub: sub && (!main || sub.main.slug === main.slug) ? sub.sub : null };
 }
 
