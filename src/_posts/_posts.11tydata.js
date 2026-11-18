@@ -1,4 +1,9 @@
-// Applies to every file in src/_posts/. n8n only has to write the front matter listed in docs/n8n-post-format.md.
+// Applies to every file in src/_posts/.
+//
+// EVERY formula in eleventyComputed may read ONLY raw front matter (category, subcategory, image, draft) and page.*.
+// It must NEVER read a computed key (categorySlug, subCategorySlug, imageId, permalink, ...), not even its own name:
+// Eleventy treats every read as a dependency and stops with "Dependency Cycle Found".
+// (excerpt and description are plain front matter now; the templates fall back from one to the other themselves.)
 const cats = require("../_data/categories.json");
 const site = require("../_data/site.json");
 const lib = require("../../lib/image.js");
@@ -9,15 +14,14 @@ function findSub(slug) {
   return null;
 }
 function resolve(d) {
-  // Read ONLY raw front matter keys here. Reading the computed keys (categorySlug / subCategorySlug) inside their own formulas causes an Eleventy "Dependency Cycle".
   var sub = findSub(d.subcategory || "");
   var main = findMain(d.category || "") || (sub && sub.main) || null;
   return { main: main, sub: sub && (!main || sub.main.slug === main.slug) ? sub.sub : null };
 }
-
+// Image id on the CDN. Front matter:  image: c1/<slug>.<ext>   (the extension of the file you uploaded)
 function heroId(d) {
   if (d.image === false || d.image === "none") return null;
-  var raw = d.imageId || ((d.image && d.image !== "auto") ? d.image : site.imageDefaultHost + "/" + d.page.fileSlug);
+  var raw = (d.image && d.image !== "auto") ? d.image : site.imageDefaultHost + "/" + d.page.fileSlug;
   return lib.normalize(raw);
 }
 
@@ -25,14 +29,11 @@ module.exports = {
   layout: "post.njk",
   eleventyComputed: {
     // Article URL: /article/<file name without .md>/  (no dates anywhere)
-    permalink: function (d) { return d.draft ? false : (d.permalink || "/article/" + d.page.fileSlug + "/"); },
+    permalink: function (d) { return d.draft ? false : "/article/" + d.page.fileSlug + "/"; },
     categorySlug: function (d) { var r = resolve(d); return r.main ? r.main.slug : undefined; },
     categoryLabel: function (d) { var r = resolve(d); return r.main ? r.main.label : undefined; },
     subCategorySlug: function (d) { var r = resolve(d); return r.sub ? r.sub.slug : undefined; },
     subCategoryLabel: function (d) { var r = resolve(d); return r.sub ? r.sub.label : undefined; },
-    // Image id on the CDN. Front matter:  image: c1/<slug>.<ext>  (the extension of the file you uploaded)
-    imageId: function (d) { return heroId(d); },
-    excerpt: function (d) { return d.excerpt || d.description; },
-    description: function (d) { return d.description || d.excerpt; }
+    imageId: function (d) { return heroId(d); }
   }
 };
