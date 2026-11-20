@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.2 - full logo (with .com) everywhere
+- Header, footer and the Organization / publisher schema logo now use `logo-full.png` (dark: `logo-full-dark.png`) instead of the shorter `logo-header` wordmark. Only `site.json` changed (`logoHeader`, `logoHeaderDark`, `logoSchema`, `logoWidth` 146, `logoHeight` 32).
+Suggested commit message: `change: use the full PactDraft.com logo in header, footer and schema`
+
 ## v1.5.1 - fix "Dependency Cycle Found" in the build
 - `src/_posts/_posts.11tydata.js`: formulas now read only raw front matter. Before, categorySlug <-> subCategorySlug, excerpt <-> description, and imageId / permalink reading their own names could stop the build as soon as the first article existed.
 - `excerpt` and `description` are plain front matter; base.njk uses `description or excerpt or site.description`.
